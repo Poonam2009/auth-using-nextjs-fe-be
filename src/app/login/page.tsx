@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "../components/authContext/page";
 
 export default function LoginPage() {
   const [user, setUser] = useState({
@@ -15,13 +16,16 @@ export default function LoginPage() {
   const router = useRouter();
   const [buttonDisable, setButtonDisable] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { setIsLoggedIn } = useAuth();
+  
 
   const onLogin = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/login", user);
+      await axios.post("/api/users/login", user);
       toast.success("Login successful");
-      router.push("/profile");
+      setIsLoggedIn(true);
+      router.push("/");
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(

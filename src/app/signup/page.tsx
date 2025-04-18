@@ -20,7 +20,7 @@ export default function SignupPage() {
 const onSignup = async () => {
     try {
         setLoading(true);
-        const response = await axios.post(
+        await axios.post(
             "/api/users/signup",
             user
         );
